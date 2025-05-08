@@ -35,8 +35,6 @@ jobs:
       - name: Check if force flag is present and has reason
         id: check-force
         run: |
-          COMMENT="${{ github.event.comment.body }}"
-
           if [[ "$COMMENT" == *"--force"* ]]; then
             echo "Force flag detected, checking for reason..."
 
@@ -58,6 +56,7 @@ jobs:
             echo "force_reason=" >> $GITHUB_OUTPUT
           fi
         env:
+          COMMENT: ${{ github.event.comment.body }}
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
       - name: Install uv
         uses: astral-sh/setup-uv@v5
